@@ -27,7 +27,7 @@ batch_size = 64
 hidden_size = 512
 
 # 波長の設定 (1545nm ~ 1555nm, 1000ポイント)
-wl = torch.linspace(1545e-9, 1555e-9, 1000)
+wl = torch.linspace(1550.5e-9, 1550.5e-9, 1000)
 
 ### 2. データセットの準備と分割
 dataset = MRRDataset(
