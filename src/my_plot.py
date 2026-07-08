@@ -65,7 +65,7 @@ def plot_mrr_comparison(wl: torch.Tensor, T_actual: torch.Tensor, T_pred: torch.
     axes[0].plot(wl_np, T_th_act, 'k-', label="Actual")
     axes[0].plot(wl_np, T_th_pred, 'r--', label="Predicted")
     axes[0].set_ylabel("$T_{th}$")
-    axes[0].set_title(f"Comparison - t1:{p[0].item():.3f}, t2:{p[1].item():.3f}, a:{p[2].item():.3f}")
+    axes[0].set_title(f"Comparison - t1:{p[0]:.3f}, t2:{p[1]:.3f}, a:{p[2]:.3f}")
     axes[0].legend()
     axes[0].grid(True)
 
