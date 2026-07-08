@@ -62,12 +62,12 @@ def plot_mrr_comparison(wl: torch.Tensor, T_actual: torch.Tensor, T_pred: torch.
     fig, axes = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
 
     # Through 比較
-    axes.plot(wl_np, T_th_act, 'k-', label="Actual")
-    axes.plot(wl_np, T_th_pred, 'r--', label="Predicted")
-    axes.set_ylabel("$T_{th}$")
-    axes.set_title(f"Comparison - t1:{p:.3f}, t2:{p[1]:.3f}, a:{p[4]:.3f}")
-    axes.legend()
-    axes.grid(True)
+    axes[0].plot(wl_np, T_th_act, 'k-', label="Actual")
+    axes[0].plot(wl_np, T_th_pred, 'r--', label="Predicted")
+    axes[0].set_ylabel("$T_{th}$")
+    axes[0].set_title(f"Comparison - t1:{p:.3f}, t2:{p[1]:.3f}, a:{p[4]:.3f}")
+    axes[0].legend()
+    axes[0].grid(True)
 
     # Drop 比較
     axes[1].plot(wl_np, T_dr_act, 'k-', label="Actual")
