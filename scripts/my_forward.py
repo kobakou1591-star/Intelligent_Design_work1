@@ -127,5 +127,9 @@ p_actual = scaler_param.inverse_transform(p_scaled.unsqueeze(0))
 T_actual_comb = torch.cat([T_actual_th.flatten(), T_actual_dr.flatten()])
 T_pred_comb = torch.cat([T_pred_th.flatten(), T_pred_dr.flatten()])
 
-plot_mrr_comparison(wl, T_actual_comb, T_pred_comb, torch.from_numpy(p_actual))
+# # Tensor(修正前)
+# plot_mrr_comparison(wl, T_actual_comb, T_pred_comb, torch.from_numpy(p_actual))
+
+# Numpy(修正後)
+plot_mrr_comparison(wl, T_actual_comb, T_pred_comb, p_actual)
 plt.show()
