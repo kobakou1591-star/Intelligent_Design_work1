@@ -104,6 +104,7 @@ class LogStandardScaler:
         recovered_params = torch.tensor(10 ** log_inputs, dtype=torch.float32)
         
         return recovered_params
+    
 class MRRScaler:
     """
     MRRの透過スペクトル T_th, T_drをスケーリングするクラス。

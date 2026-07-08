@@ -2,54 +2,6 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
-# class RCDataset(Dataset):
-#     def __init__(self, num_samples, R_range, C_range, fs:torch.Tensor):
-#         """
-#         Args:
-#             num_samples: Number of data points to generate
-#             R_range: [min_R, max_R]
-#             C_range: [min_C, max_C]
-#             fs: The frequency array (Hz) to evaluate H for
-
-#             For fixed R, use R_range = [R, R].
-#         """
-#         self.num_samples = num_samples
-#         self.fs = fs
-#         self.ws = 2 * torch.pi * self.fs
-#         self.R_range = R_range
-#         self.C_range = C_range
-
-#         # R の生成
-#         if R_range[0] == R_range[1]:
-#             self.R = torch.full((num_samples, 1), R_range[0]) # for fixed R
-#         else:
-#             self.R = torch.distributions.Uniform(R_range[0], R_range[1]).sample((num_samples, 1))
-
-#         # C の生成
-#         if C_range[0] == C_range[1]:
-#             self.C = torch.full((num_samples, 1), C_range[0]) # for fixed C
-#         else:
-#             self.C = torch.distributions.Uniform(C_range[0], C_range[1]).sample((num_samples, 1))
-
-#         # Calculate Complex Transfer Function: H(jw) = 1 / (1 + jwRC)
-#         # Shape: (num_samples, len(fs))
-#         jwRC = 1j * self.ws * self.R * self.C
-#         self.H = 1 / (1 + jwRC)
-
-#     def __len__(self):
-#         return self.num_samples
-
-#     def __getitem__(self, idx):
-#         # To match the expected format for plotting/analysis:
-#         # Returns (H, R, C)
-#         H = self.H[idx]   # Complex frequency response
-#         r = self.R[idx]   # Resistance value
-#         c = self.C[idx]   # Capacitance value
-
-#         circuit_parameters = torch.cat([r, c], dim=1)
-
-#         return H, circuit_parameters
-
 class MRRDataset(Dataset):
     def __init__(self, num_samples, tau1_range, tau2_range, alpha_range, FSR, wl:torch.Tensor):
         self.num_samples = num_samples
@@ -79,8 +31,8 @@ class MRRDataset(Dataset):
         n_effL=2*torch.pi*c0/self.FSR
         theta=2*torch.pi*n_effL/self.wl
         Input = 1-2 * self.alpha * self.tau1 * self.tau2 * torch.cos(theta) + (self.alpha * self.tau1 * self.tau2)**2
-        Output_th = self.tau1**2 -2 * self.alpha * self.tau1 * self.tau2 * torch.cos(theta) + (self.alpha * self.tau1 )**2
-        Output_dr = (1-self.tau1**2) * (1-self.alpha**2) * self.tau2
+        Output_th = self.tau1**2 -2 * self.alpha * self.tau1 * self.tau2 * torch.cos(theta) + (self.alpha * self.tau2 )**2
+        Output_dr = (1-self.tau1**2) * (1-self.tau2**2) * self.alpha
 
         self.T_th = Output_th / Input
         self.T_dr = Output_dr / Input
