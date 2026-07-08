@@ -28,7 +28,7 @@ class MRRDataset(Dataset):
         
         # Calculate Complex Transfer Function:
         c0=299792458
-        n_effL=2*torch.pi*c0/self.FSR
+        n_effL=c0/self.FSR
         theta=2*torch.pi*n_effL/self.wl
         Input = 1-2 * self.alpha * self.tau1 * self.tau2 * torch.cos(theta) + (self.alpha * self.tau1 * self.tau2)**2
         Output_th = self.tau1**2 -2 * self.alpha * self.tau1 * self.tau2 * torch.cos(theta) + (self.alpha * self.tau2 )**2
