@@ -24,7 +24,7 @@ def plot_mrr_response(mrr_dataset: MRRDataset, num_samples: int | list):
     for i in range(len(indices)):
         p = params_all[i]
         # ラベルにパラメータを表示 (tau1, tau2, alpha)
-        label = f"t1:{p:.2f}, t2:{p[1]:.2f}, a:{p[4]:.2f}"
+        label = f"t1:{p[0]:.2f}, t2:{p[1]:.2f}, a:{p[2]:.2f}"
         
         axes.plot(wl_nm, T_th_all[i], label=label)
         axes[1].plot(wl_nm, T_dr_all[i], label=label)
