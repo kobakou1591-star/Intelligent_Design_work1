@@ -57,7 +57,9 @@ def plot_mrr_comparison(wl: torch.Tensor, T_actual: torch.Tensor, T_pred: torch.
     T_th_pred = T_pred[:num_wl].detach().cpu().numpy()
     T_dr_pred = T_pred[num_wl:].detach().cpu().numpy()
     
-    p = params.detach().cpu().numpy()
+    tau1=params[0][0]
+    tau2=params[0][1]
+    alpha=params[0][2]
 
     fig, axes = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
 
@@ -65,7 +67,7 @@ def plot_mrr_comparison(wl: torch.Tensor, T_actual: torch.Tensor, T_pred: torch.
     axes[0].plot(wl_np, T_th_act, 'k-', label="Actual")
     axes[0].plot(wl_np, T_th_pred, 'r--', label="Predicted")
     axes[0].set_ylabel("$T_{th}$")
-    axes[0].set_title(f"Comparison - t1:{p[0][0]:.3f}, t2:{p[0][1]:.3f}, a:{p[0][2]:.3f}")
+    axes[0].set_title(f"Comparison - t1:{tau1:.3f}, t2:{tau2:.3f}, a:{alpha:.3f}")
     axes[0].legend()
     axes[0].grid(True)
 

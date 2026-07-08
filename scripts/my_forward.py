@@ -132,4 +132,6 @@ T_pred_comb = torch.cat([T_pred_th.flatten(), T_pred_dr.flatten()])
 
 # Numpy(修正後)
 plot_mrr_comparison(wl, T_actual_comb, T_pred_comb, p_actual)
+# print(f"Actual Params: {p_actual}")
+# p_actual
 plt.show()
