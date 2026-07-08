@@ -126,7 +126,7 @@ class MRRScaler:
 
         # 波長方向のサイズを保持 (inverse_transform用)
         if self.num_wl is None:
-            self.num_wl = T_th.shape[2]
+            self.num_wl = T_th.shape[1]
         
         # [T_th, T_dr] を横に結合 (shape: [samples, 2 * num_wl])
         return np.hstack([T_th, T_dr])
