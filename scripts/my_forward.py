@@ -27,7 +27,7 @@ batch_size = 64
 hidden_size = 512
 
 # 波長の設定 (1545nm ~ 1555nm, 1000ポイント)
-wl = torch.linspace(1550.5e-9, 1550.5e-9, 1000)
+wl = torch.linspace(1549.5e-9, 1550.5e-9, 1000)
 
 ### 2. データセットの準備と分割
 dataset = MRRDataset(
@@ -113,25 +113,28 @@ plt.legend()
 plt.title("Training History")
 
 # 推論と逆変換の確認
-model.eval()
-idx = 0
-p_scaled, T_actual_scaled = val_loader.dataset[idx]
-T_pred_scaled = model(p_scaled.unsqueeze(0).to(device)).squeeze(0)
+# model.eval()
+# idx = 0
+# p_scaled, T_actual_scaled = val_loader.dataset[idx]
+# T_pred_scaled = model(p_scaled.unsqueeze(0).to(device)).squeeze(0)
 
-# スケールを元に戻す
-T_actual_th, T_actual_dr = scaler_T.inverse_transform(T_actual_scaled.unsqueeze(0))
-T_pred_th, T_pred_dr = scaler_T.inverse_transform(T_pred_scaled.unsqueeze(0).detach())
-p_actual = scaler_param.inverse_transform(p_scaled.unsqueeze(0))
+# # スケールを元に戻す
+# T_actual_th, T_actual_dr = scaler_T.inverse_transform(T_actual_scaled.unsqueeze(0))
+# T_pred_th, T_pred_dr = scaler_T.inverse_transform(T_pred_scaled.unsqueeze(0).detach())
+# p_actual = scaler_param.inverse_transform(p_scaled.unsqueeze(0))
 
-# T_th と T_dr を結合して比較関数に渡す
-T_actual_comb = torch.cat([T_actual_th.flatten(), T_actual_dr.flatten()])
-T_pred_comb = torch.cat([T_pred_th.flatten(), T_pred_dr.flatten()])
+# # T_th と T_dr を結合して比較関数に渡す
+# T_actual_comb = torch.cat([T_actual_th.flatten(), T_actual_dr.flatten()])
+# T_pred_comb = torch.cat([T_pred_th.flatten(), T_pred_dr.flatten()])
 
-# # Tensor(修正前)
-# plot_mrr_comparison(wl, T_actual_comb, T_pred_comb, torch.from_numpy(p_actual))
+# # # Tensor(修正前)
+# # plot_mrr_comparison(wl, T_actual_comb, T_pred_comb, torch.from_numpy(p_actual))
 
-# Numpy(修正後)
-plot_mrr_comparison(wl, T_actual_comb, T_pred_comb, p_actual)
-# print(f"Actual Params: {p_actual}")
-# p_actual
-plt.show()
+# # Numpy(修正後)
+# plot_mrr_comparison(wl, T_actual_comb, T_pred_comb, p_actual)
+# # print(f"Actual Params: {p_actual}")
+# # p_actual
+# plt.show()
+
+idx = [0, 1, 2]
+p_actual_scaled, T_actual_scaled = val_loader.dataset[idx]
