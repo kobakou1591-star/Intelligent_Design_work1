@@ -51,12 +51,12 @@ from torch.utils.data import Dataset
 #         return H, circuit_parameters
 
 class MRRDataset(Dataset):
-    def __init__(self, num_samples, tau1_range, tau2_range, alphas_range, FSR, wl:torch.Tensor):
+    def __init__(self, num_samples, tau1_range, tau2_range, alpha_range, FSR, wl:torch.Tensor):
         self.num_samples = num_samples
         self.wl = wl
         self.tau1_range = tau1_range
         self.tau2_range = tau2_range
-        self.alphas_range = alphas_range
+        self.alpha_range = alpha_range
         self.FSR = FSR
 
         if tau1_range[0] == tau1_range[1]:
@@ -69,10 +69,10 @@ class MRRDataset(Dataset):
         else:
             self.tau2 = torch.distributions.Uniform(tau2_range[0], tau2_range[1]).sample((num_samples, 1))
         
-        if alphas_range[0] == alphas_range[1]:
-            self.alphas = torch.full((num_samples, 1), alphas_range[0]) # for fixed alphas
+        if alpha_range[0] == alpha_range[1]:
+            self.alpha = torch.full((num_samples, 1), alpha_range[0]) # for fixed alpha
         else:
-            self.alphas = torch.distributions.Uniform(alphas_range[0], alphas_range[1]).sample((num_samples, 1))
+            self.alpha = torch.distributions.Uniform(alpha_range[0], alpha_range[1]).sample((num_samples, 1))
         
         # Calculate Complex Transfer Function:
         c0=299792458
@@ -93,21 +93,21 @@ class MRRDataset(Dataset):
         T_dr = self.T_dr[idx]
         tau1 = self.tau1[idx]
         tau2 = self.tau2[idx]
-        alphas = self.alphas[idx]
+        alpha = self.alpha[idx]
 
-        circuit_parameters = torch.cat([tau1, tau2, alphas], dim=1)
+        circuit_parameters = torch.cat([tau1, tau2, alpha], dim=1)
 
         return T_th, T_dr, circuit_parameters
 
 if __name__ == "__main__":
 
     wl = torch.linspace(1549.5e-9, 1550.5e-9, 100)
-    dataset = MRRDataset(num_samples=1000, tau1_range=[0.1, 0.9], tau2_range=[0.1, 0.9], alphas_range=[0.1, 0.9], FSR=50e9, wl=wl)
+    dataset = MRRDataset(num_samples=1000, tau1_range=[0.1, 0.9], tau2_range=[0.1, 0.9], alpha_range=[0.1, 0.9], FSR=50e9, wl=wl)
     idx = [0, 1, 2]
     T_th_actual, T_dr_actual, circuit_parameters = dataset[idx]
     tau1 = circuit_parameters[:, 0]      # tau1 values
     tau2 = circuit_parameters[:, 1]      # tau2 values
-    alphas = circuit_parameters[:, 2]    # alphas values
+    alpha = circuit_parameters[:, 2]    # alpha values
 
     for i in idx:
-        print(f"T_th: {T_th_actual[i]}, T_dr: {T_dr_actual[i]}, tau1: {tau1[i]}, tau2: {tau2[i]}, alphas: {alphas[i]}")
+        print(f"T_th: {T_th_actual[i]}, T_dr: {T_dr_actual[i]}, tau1: {tau1[i]}, tau2: {tau2[i]}, alpha: {alpha[i]}")

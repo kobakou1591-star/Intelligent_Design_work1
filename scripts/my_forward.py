@@ -34,7 +34,7 @@ dataset = MRRDataset(
     num_samples=2000,
     tau1_range=[0.8, 0.99],
     tau2_range=[0.8, 0.99],
-    alphas_range=[0.9, 0.99],
+    alpha_range=[0.9, 0.99],
     FSR=0.01,
     wl=wl
 )
