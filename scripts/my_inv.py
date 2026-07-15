@@ -21,12 +21,15 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 ##### 1. ハイパーパラメータの設定
 split_ratio = 0.8
 epochs = 51
-lr = 0.001
+lr = 0.01
 batch_size = 64
-hidden_size = 512
+hidden_size = 128
 
 # 波長の設定 (1545nm ~ 1555nm, 1000ポイント) [1]
-wl = torch.linspace(1545e-9, 1555e-9, 1000)
+# wl = torch.linspace(1545e-9, 1555e-9, 1000)
+
+# 波長の設定 (1549.5nm ~ 1550.5nm, 100ポイント) [1]
+wl = torch.linspace(1549.5e-9, 1550.5e-9, 100)
 
 ##### 2. データセットの準備と分割
 dataset = MRRDataset(
@@ -68,8 +71,8 @@ val_loader = DataLoader(
 
 ##### 5. モデル、損失関数、最適化手法の定義
 # 逆問題: Spectra (2000次元) -> Params (4次元) [5]
-input_size = T_train_scaled.shape[7]
-output_size = params_train_scaled.shape[7]
+input_size = T_train_scaled.shape[1]
+output_size = params_train_scaled.shape[1]
 
 model = MLP(input_size=input_size, hidden_size=hidden_size, output_size=output_size).to(device)
 criterion = nn.MSELoss()
@@ -125,9 +128,9 @@ with torch.no_grad():
 p_actual = scaler_param.inverse_transform(p_actual_scaled)
 p_pred = scaler_param.inverse_transform(p_pred_scaled)
 
-# 4つのパラメータ (tau1, tau2, alpha, FSR) の散布図プロット [10]
-fig, axes = plt.subplots(2, 2, figsize=(12, 10))
-param_names = [r'$\tau_1$', r'$\tau_2$', r'$\alpha$', 'FSR']
+# 3つのパラメータ (tau1, tau2, alpha) の散布図プロット [10]
+fig, axes = plt.subplots(3, 1, figsize=(12, 10))
+param_names = [r'$\tau_1$', r'$\tau_2$', r'$\alpha$']
 
 for i, ax in enumerate(axes.flat):
     act = p_actual[:, i]
