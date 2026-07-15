@@ -109,7 +109,7 @@ plt.figure(figsize=(8, 5))
 plt.plot(train_losses, label='Train Loss')
 plt.plot(val_losses, label='Val Loss')
 plt.yscale('log') # 誤差の減少を詳しく見るために対数スケールにする [6]
-plt.title("Inverse Problem Training History (Fixed Param)")
+plt.title("Inverse Problem Training History (Fixed tau1)")
 plt.xlabel("Epoch")
 plt.ylabel("MSE Loss")
 plt.legend()

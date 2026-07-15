@@ -32,9 +32,9 @@ wl = torch.linspace(1549.5e-9, 1550.5e-9, 100)
 # tau1_range を [0.9, 0.9] にすることで、tau1 を 0.9 に固定します
 dataset = MRRDataset(
     num_samples=1000,
-    tau1_range=[0.9, 0.9],
+    tau1_range=[0.8, 0.99],
     tau2_range=[0.8, 0.99],
-    alpha_range=[0.9, 0.99],
+    alpha_range=[0.95, 0.95],
     FSR=50e9,
     wl=wl
 )
@@ -109,7 +109,7 @@ plt.figure(figsize=(8, 5))
 plt.plot(train_losses, label='Train Loss')
 plt.plot(val_losses, label='Val Loss')
 plt.yscale('log') # 誤差の減少を詳しく見るために対数スケールにする [6]
-plt.title("Inverse Problem Training History (Fixed Param)")
+plt.title("Inverse Problem Training History (Fixed alpha)")
 plt.xlabel("Epoch")
 plt.ylabel("MSE Loss")
 plt.legend()
