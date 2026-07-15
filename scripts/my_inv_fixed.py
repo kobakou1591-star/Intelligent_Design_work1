@@ -68,8 +68,8 @@ val_loader = DataLoader(
 
 ##### 5. モデル、損失関数、最適化手法の定義 [4]
 # 逆問題: Spectra (200次元) -> Params (3次元: tau1, tau2, alpha)
-input_size = T_train_scaled.shape[5]
-output_size = params_train_scaled.shape[5]
+input_size = T_train_scaled.shape[1]
+output_size = params_train_scaled.shape[1]
 
 model = MLP(input_size=input_size, hidden_size=hidden_size, output_size=output_size).to(device)
 criterion = nn.MSELoss()
