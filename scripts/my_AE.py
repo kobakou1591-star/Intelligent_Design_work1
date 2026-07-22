@@ -148,8 +148,8 @@ for i in range(len(idx)):
 #     plt.hist(z.flatten(), bins=50, edgecolor='black', alpha=0.7, color='skyblue')
 #     plt.title('Latent Space Distribution (1D Histogram)')
 
-plt.grid(True, linestyle='--', alpha=0.6)
-plt.show()
+# plt.grid(True, linestyle='--', alpha=0.6)
+# plt.show()
 
 ##### 6. 潜在空間の可視化
 T_all_val_scaled, _ = val_loader.dataset[:]
