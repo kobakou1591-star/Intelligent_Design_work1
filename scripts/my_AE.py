@@ -132,21 +132,56 @@ for i in range(len(idx)):
     
     plot_mrr_comparison(wl, T_act_comb, T_pred_comb, p_sample)
 
-### (3) 潜在空間の可視化 [24, 25, 27]
-T_all_val_scaled, _ = val_dataset[:]
+# ### (3) 潜在空間の可視化 [24, 25, 27]
+# T_all_val_scaled, _ = val_dataset[:]
+# with torch.no_grad():
+#     z = model.encoder(T_all_val_scaled.to(device)).cpu().numpy()
+
+# plt.figure(figsize=(8, 6))
+# if latent_dim == 2:
+#     sc = plt.scatter(z[:, 0], z[:, 1], alpha=0.5, c=params_val_scaled[:, 0], cmap='viridis')
+#     plt.colorbar(sc, label='Scaled tau1')
+#     plt.xlabel('Latent Dimension 1')
+#     plt.ylabel('Latent Dimension 2')
+#     plt.title('Latent Space Distribution (MRR AE)')
+# elif latent_dim == 1:
+#     plt.hist(z.flatten(), bins=50, edgecolor='black', alpha=0.7, color='skyblue')
+#     plt.title('Latent Space Distribution (1D Histogram)')
+
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.show()
+
+##### 6. 潜在空間の可視化
+T_all_val_scaled, _ = val_loader.dataset[:]
 with torch.no_grad():
     z = model.encoder(T_all_val_scaled.to(device)).cpu().numpy()
 
-plt.figure(figsize=(8, 6))
-if latent_dim == 2:
-    sc = plt.scatter(z[:, 0], z[:, 1], alpha=0.5, c=params_val_scaled[:, 0], cmap='viridis')
-    plt.colorbar(sc, label='Scaled tau1')
-    plt.xlabel('Latent Dimension 1')
-    plt.ylabel('Latent Dimension 2')
-    plt.title('Latent Space Distribution (MRR AE)')
+fig = plt.figure(figsize=(10, 8))
+
+if latent_dim == 3:
+    # 3次元散布図の設定
+    ax = fig.add_subplot(111, projection='3d')
+    # パラメータの1つ目 (tau1) で色付け
+    sc = ax.scatter(z[:, 0], z[:, 1], z[:, 2], alpha=0.6, c=params_val_scaled[:, 0], cmap='viridis')
+    
+    ax.set_xlabel('Latent Dimension 1')
+    ax.set_ylabel('Latent Dimension 2')
+    ax.set_zlabel('Latent Dimension 3')
+    ax.set_title('Latent Space Distribution (3D)')
+    fig.colorbar(sc, ax=ax, label='Scaled tau1', pad=0.1)
+
+elif latent_dim == 2:
+    # 2次元散布図 (既存のソース[1, 2]を参考)
+    plt.scatter(z[:, 0], z[:, 1], alpha=0.5, c=params_val_scaled[:, 0], cmap='viridis')
+    plt.colorbar(label='Scaled tau1')
+    plt.xlabel('Latent 1')
+    plt.ylabel('Latent 2')
+    plt.title('Latent Space (2D)')
+
 elif latent_dim == 1:
-    plt.hist(z.flatten(), bins=50, edgecolor='black', alpha=0.7, color='skyblue')
-    plt.title('Latent Space Distribution (1D Histogram)')
+    # 1次元ヒストグラム (既存のソース[1, 2]を参考)
+    plt.hist(z.flatten(), bins=50, alpha=0.7, color='skyblue', edgecolor='black')
+    plt.title('Latent Space Distribution (1D)')
 
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.show()

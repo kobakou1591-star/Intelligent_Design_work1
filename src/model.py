@@ -18,12 +18,12 @@ class Autoencoder(nn.Module):
     def __init__(self, input_dim=200, latent_dim=2):
         super().__init__()
         
-        # self.encoder = nn.Sequential(
-        #     nn.Linear(input_dim, input_dim//4),
-        #     nn.GELU(),
-        #     nn.Linear(input_dim//4, latent_dim)
-        #     # ボトルネック層：活性化関数なし（Linear のみ）
-        # )
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, input_dim//4),
+            nn.GELU(),
+            nn.Linear(input_dim//4, latent_dim)
+            # ボトルネック層：活性化関数なし（Linear のみ）
+        )
         
         # self.decoder = nn.Sequential(
         #     nn.Linear(latent_dim, input_dim//4),
@@ -31,10 +31,10 @@ class Autoencoder(nn.Module):
         #     nn.Linear(input_dim//4, input_dim),
         # )
 
-        self.encoder = nn.Sequential(
-            nn.Linear(input_dim, latent_dim)
-            # ボトルネック層：活性化関数なし（Linear のみ）
-        )
+        # self.encoder = nn.Sequential(
+        #     nn.Linear(input_dim, latent_dim)
+        #     # ボトルネック層：活性化関数なし（Linear のみ）
+        # )
         self.decoder = nn.Sequential(
             nn.Linear(latent_dim, input_dim),
         )
